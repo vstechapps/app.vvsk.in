@@ -1,0 +1,13 @@
+<div class="profile-container" *ngIf="user$ | async as user">
+    <mat-card class="profile-card">
+        <mat-card-header>
+            <div mat-card-avatar class="profile-header-image"
+                [style.background-image]="'url(' + (user.photoURL || '') + ')'"></div>
+            <mat-card-title>{{ user.displayName }}</mat-card-title>
+            <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>User ID: {{ user.uid }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

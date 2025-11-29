@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="app-header">
+  <span class="logo" routerLink="/">Lifestyle Adapter</span>
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="user$ | async as user; else loginTemplate">
+    <a mat-button routerLink="/dashboard">Dashboard</a>
+    <a mat-button routerLink="/profile">Profile</a>
+    <button mat-icon-button (click)="authService.logout()" title="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </ng-container>
+  <ng-template #loginTemplate>
+    <!-- Optional: Add a small sign in button if needed, but Home has the main one -->
+    <!-- <a mat-button routerLink="/login">Sign In</a> -->
+  </ng-template>
+</mat-toolbar>

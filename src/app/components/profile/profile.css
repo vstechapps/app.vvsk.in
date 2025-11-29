@@ -1,0 +1,13 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.profile-card {
+    width: 400px;
+}
+
+.profile-header-image {
+    background-size: cover;
+}

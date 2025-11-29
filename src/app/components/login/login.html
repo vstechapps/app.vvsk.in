@@ -1,0 +1,14 @@
+<div class="login-container">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title>Welcome Back</mat-card-title>
+            <mat-card-subtitle>Sign in to continue</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <button mat-flat-button color="primary" class="google-signin-btn" (click)="authService.loginWithGoogle()">
+                <mat-icon>login</mat-icon>
+                Sign in with Google
+            </button>
+        </mat-card-content>
+    </mat-card>
+</div>

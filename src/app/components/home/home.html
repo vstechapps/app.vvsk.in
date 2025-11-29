@@ -1,0 +1,53 @@
+<div class="home-container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Master Your Lifestyle</h1>
+            <p class="hero-subtitle">
+                Data-driven insights to adapt, improve, and thrive.
+                Track your habits, analyze your LA Score, and reach your peak potential.
+            </p>
+
+            <div class="cta-container">
+                <button mat-flat-button color="primary" class="google-signin-btn"
+                    (click)="authService.loginWithGoogle()">
+                    <mat-icon>login</mat-icon>
+                    Sign in with Google
+                </button>
+            </div>
+
+            <p class="hero-note">Start your journey today. No credit card required.</p>
+        </div>
+    </div>
+
+    <div class="features-section">
+        <mat-card class="feature-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar color="primary">analytics</mat-icon>
+                <mat-card-title>Smart Analytics</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Visualize your progress with intuitive charts and graphs.</p>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="feature-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar color="accent">track_changes</mat-icon>
+                <mat-card-title>Habit Tracking</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Monitor your daily routines and identify areas for improvement.</p>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="feature-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar color="warn">psychology</mat-icon>
+                <mat-card-title>Adaptive Insights</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Get personalized recommendations based on your unique lifestyle data.</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
