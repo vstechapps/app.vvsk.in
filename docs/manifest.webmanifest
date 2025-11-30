@@ -1,6 +1,8 @@
 {
-  "name": "lifestyle-adapter",
-  "short_name": "lifestyle-adapter",
+  "name": "Lifestyle Adapter",
+  "short_name": "LA",
+  "theme_color": "#3f51b5",
+  "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
