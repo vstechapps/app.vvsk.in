@@ -1,53 +1,68 @@
 <div class="home-container">
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">Master Your Lifestyle</h1>
+            <h1 class="hero-title">Unlock Your Full Potential</h1>
             <p class="hero-subtitle">
-                Data-driven insights to adapt, improve, and thrive.
-                Track your habits, analyze your LA Score, and reach your peak potential.
+                Lifestyle Adapter is your personal growth companion. We combine data analytics with behavioral science
+                to help you build lasting habits and optimize your daily life.
             </p>
 
             <div class="cta-container">
-                <button mat-flat-button color="primary" class="google-signin-btn"
-                    (click)="authService.loginWithGoogle()">
-                    <mat-icon>login</mat-icon>
-                    Sign in with Google
+                <button class="gsi-material-button" (click)="authService.loginWithGoogle()">
+                    <div class="gsi-material-button-state"></div>
+                    <div class="gsi-material-button-content-wrapper">
+                        <div class="gsi-material-button-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
+                                <path fill="#EA4335"
+                                    d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                </path>
+                                <path fill="#4285F4"
+                                    d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                </path>
+                                <path fill="#FBBC05"
+                                    d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                </path>
+                                <path fill="#34A853"
+                                    d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                </path>
+                                <path fill="none" d="M0 0h48v48H0z"></path>
+                            </svg>
+                        </div>
+                        <span class="gsi-material-button-contents">Sign in with Google</span>
+                        <span style="display: none;">Sign in with Google</span>
+                    </div>
                 </button>
             </div>
 
-            <p class="hero-note">Start your journey today. No credit card required.</p>
+            <p class="hero-note">Join thousands of users optimizing their lifestyle today.</p>
         </div>
     </div>
 
-    <div class="features-section">
-        <mat-card class="feature-card">
-            <mat-card-header>
-                <mat-icon mat-card-avatar color="primary">analytics</mat-icon>
-                <mat-card-title>Smart Analytics</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Visualize your progress with intuitive charts and graphs.</p>
-            </mat-card-content>
-        </mat-card>
-
-        <mat-card class="feature-card">
-            <mat-card-header>
-                <mat-icon mat-card-avatar color="accent">track_changes</mat-icon>
-                <mat-card-title>Habit Tracking</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Monitor your daily routines and identify areas for improvement.</p>
-            </mat-card-content>
-        </mat-card>
-
-        <mat-card class="feature-card">
-            <mat-card-header>
-                <mat-icon mat-card-avatar color="warn">psychology</mat-icon>
-                <mat-card-title>Adaptive Insights</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Get personalized recommendations based on your unique lifestyle data.</p>
-            </mat-card-content>
-        </mat-card>
+    <div class="value-prop-section">
+        <h2>Why Lifestyle Adapter?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="icon-wrapper">
+                    <mat-icon color="primary">insights</mat-icon>
+                </div>
+                <h3>Data-Driven Growth</h3>
+                <p>Stop guessing. Use real data to understand what works for you and what doesn't.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon-wrapper">
+                    <mat-icon color="accent">schedule</mat-icon>
+                </div>
+                <h3>Habit Formation</h3>
+                <p>Build streaks and track consistency to turn positive actions into automatic behaviors.</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon-wrapper">
+                    <mat-icon color="warn">trending_up</mat-icon>
+                </div>
+                <h3>Measurable Progress</h3>
+                <p>Watch your LA Score rise as you improve your sleep, activity, and focus.</p>
+            </div>
+        </div>
     </div>
 </div>

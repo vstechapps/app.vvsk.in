@@ -1,13 +1,44 @@
 <div class="profile-container" *ngIf="user$ | async as user">
     <mat-card class="profile-card">
-        <mat-card-header>
-            <div mat-card-avatar class="profile-header-image"
-                [style.background-image]="'url(' + (user.photoURL || '') + ')'"></div>
-            <mat-card-title>{{ user.displayName }}</mat-card-title>
-            <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
-        </mat-card-header>
+        <div class="profile-cover"></div>
+        <div class="profile-header">
+            <div class="profile-avatar" [style.background-image]="'url(' + (user.photoURL || '') + ')'"></div>
+            <div class="profile-info">
+                <h2 class="profile-name">{{ user.displayName }}</h2>
+                <p class="profile-email">{{ user.email }}</p>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
         <mat-card-content>
-            <p>User ID: {{ user.uid }}</p>
+            <mat-list>
+                <h3 mat-subheader>Account Details</h3>
+                <mat-list-item>
+                    <mat-icon matListItemIcon>fingerprint</mat-icon>
+                    <div matListItemTitle>User ID</div>
+                    <div matListItemLine class="uid-text">{{ user.uid }}</div>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListItemIcon>verified_user</mat-icon>
+                    <div matListItemTitle>Email Verified</div>
+                    <div matListItemLine>{{ user.emailVerified ? 'Yes' : 'No' }}</div>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListItemIcon>calendar_today</mat-icon>
+                    <div matListItemTitle>Last Sign In</div>
+                    <div matListItemLine>{{ user.metadata.lastSignInTime | date:'medium' }}</div>
+                </mat-list-item>
+            </mat-list>
+
+            <mat-divider></mat-divider>
+
+            <div class="profile-actions">
+                <button mat-stroked-button color="warn" (click)="authService.logout()">
+                    <mat-icon>logout</mat-icon>
+                    Sign Out
+                </button>
+            </div>
         </mat-card-content>
     </mat-card>
 </div>
