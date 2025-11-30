@@ -1,14 +1,26 @@
 <div class="home-container">
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">Unlock Your Full Potential</h1>
+            <h1 class="hero-title">Lifestyle Adapter</h1>
             <p class="hero-subtitle">
-                Lifestyle Adapter is your personal growth companion. We combine data analytics with behavioral science
-                to help you build lasting habits and optimize your daily life.
+                Your personal growth companion for a better lifestyle.
             </p>
 
             <div class="cta-container">
-                <button class="gsi-material-button" (click)="authService.loginWithGoogle()">
+                <!-- Browser Mode: Show Install App Button -->
+                <button mat-raised-button color="primary" class="install-button"
+                    *ngIf="!isStandalone && showInstallButton" (click)="installApp()">
+                    <mat-icon>get_app</mat-icon>
+                    Install App
+                </button>
+
+                <!-- Browser Mode: Can't Install Message -->
+                <p class="install-note" *ngIf="!isStandalone && !showInstallButton">
+                    Use Chrome, Edge, or Safari to install this app on your device.
+                </p>
+
+                <!-- PWA Mode: Show Sign in with Google -->
+                <button class="gsi-material-button" *ngIf="isStandalone" (click)="authService.loginWithGoogle()">
                     <div class="gsi-material-button-state"></div>
                     <div class="gsi-material-button-content-wrapper">
                         <div class="gsi-material-button-icon">
@@ -35,7 +47,8 @@
                 </button>
             </div>
 
-            <p class="hero-note">Join thousands of users optimizing their lifestyle today.</p>
+            <p class="hero-note" *ngIf="!isStandalone">Join thousands of users optimizing their lifestyle today.</p>
+            <p class="hero-note" *ngIf="isStandalone">Sign in to access your personalized dashboard.</p>
         </div>
     </div>
 
