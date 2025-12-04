@@ -17,6 +17,7 @@
 
 .hero-content {
     max-width: 800px;
+    width: 100%;
 }
 
 .hero-title {
@@ -43,6 +44,7 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    width: 100%;
 }
 
 .install-button {
@@ -234,11 +236,54 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .hero-section {
+        padding: 60px 20px;
+        min-height: auto;
+    }
+
     .hero-title {
         font-size: 2.5rem;
+        margin-bottom: 16px;
     }
 
     .hero-subtitle {
         font-size: 1.1rem;
+        margin-bottom: 32px;
+    }
+
+    .value-prop-section {
+        padding: 60px 20px;
+    }
+
+    .value-prop-section h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .feature-item {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .install-button {
+        width: 100%;
+    }
+
+    .gsi-material-button {
+        width: 100%;
     }
 }

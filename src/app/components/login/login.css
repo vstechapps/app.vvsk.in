@@ -2,7 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    min-height: 80vh;
+    padding: 20px;
 }
 
 .login-card {
@@ -116,4 +117,21 @@
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
     background-color: #303030;
     opacity: 8%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 16px;
+        height: auto;
+        min-height: calc(100vh - 64px);
+        /* Adjust for header height */
+    }
+
+    .login-card {
+        padding: 20px;
+        box-shadow: none !important;
+        /* Optional: remove shadow on mobile for cleaner look */
+        border: 1px solid #e0e0e0;
+    }
 }
