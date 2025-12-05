@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth';
 
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -25,11 +27,16 @@ export class Home implements OnInit {
   onBeforeInstallPrompt(e: Event) {
     e.preventDefault();
     this.deferredPrompt = e;
-    this.showInstallButton = true;
+    // Only show install button in production or test environments
+    if (environment.production || environment.test) {
+      this.showInstallButton = true;
+    }
   }
 
   ngOnInit() {
-    this.isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    // In development (local), treat as standalone to bypass install prompt
+    // Local is defined as neither production nor test
+    this.isStandalone = window.matchMedia('(display-mode: standalone)').matches || (!environment.production && !environment.test);
 
     // Show install button by default if not in standalone mode
     // The beforeinstallprompt event will update this if it fires

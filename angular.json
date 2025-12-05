@@ -32,6 +32,34 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2MB",
+                  "maximumError": "4MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
+            },
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -60,6 +88,9 @@
           "configurations": {
             "production": {
               "buildTarget": "lifestyle-adapter:build:production"
+            },
+            "test": {
+              "buildTarget": "lifestyle-adapter:build:test"
             },
             "development": {
               "buildTarget": "lifestyle-adapter:build:development"

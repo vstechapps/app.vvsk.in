@@ -6,10 +6,12 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
+import { MatMenuModule } from '@angular/material/menu';
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, RouterLink, AsyncPipe, CommonModule, MatIconModule],
+  imports: [MatToolbarModule, MatButtonModule, RouterLink, AsyncPipe, CommonModule, MatIconModule, MatMenuModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
