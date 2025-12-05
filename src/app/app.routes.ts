@@ -7,6 +7,7 @@ import { Profile } from './components/profile/profile';
 import { canActivate, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 import { MyBanner } from './components/mybanner/mybanner';
 import { NoInternet } from './components/no-internet/no-internet';
+import { Notifications } from './components/notifications/notifications';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToDashboard = () => redirectLoggedInTo(['dashboard']);
@@ -19,5 +20,6 @@ export const routes: Routes = [
     { path: 'profile', component: Profile, ...canActivate(redirectUnauthorizedToLogin) },
     { path: 'banner', component: MyBanner },
     { path: 'no-internet', component: NoInternet },
+    { path: 'notifications', component: Notifications },
     { path: '**', redirectTo: '' }
 ];

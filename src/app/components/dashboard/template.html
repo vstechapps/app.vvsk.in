@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lifesync Adapter — Dashboard</title>
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --muted: #94a3b8;
+            --accent: #7c3aed;
+            --accent-2: #06b6d4;
+            --good: #16a34a;
+            --danger: #ef4444;
+            --glass: rgba(255, 255, 255, 0.03);
+            --radius: 14px;
+            color-scheme: dark;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(180deg, #071021 0%, #081427 100%);
+            color: #e6eef6
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 22px auto;
+            padding: 18px;
+            box-sizing: border-box
+        }
+
+        .header {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .app-title {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-title h1 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: 0.2px
+        }
+
+        .app-title p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        /* mobile mockup */
+        .mock-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+            flex-wrap: wrap
+        }
+
+        .mock-phone {
+            width: 210px;
+            min-width: 180px;
+            border-radius: 28px;
+            padding: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            box-shadow: 0 6px 30px rgba(2, 6, 23, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .mock-screen {
+            width: 100%;
+            height: 380px;
+            background: linear-gradient(180deg, #041428, #072034);
+            border-radius: 16px;
+            padding: 12px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            color: #e6eef6
+        }
+
+        /* grid for dashboard sections */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 14px
+        }
+
+        .card {
+            background: var(--card);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 6px 16px rgba(2, 6, 23, 0.6)
+        }
+
+        .full {
+            grid-column: 1/-1
+        }
+
+        .col-4 {
+            grid-column: span 4
+        }
+
+        .col-8 {
+            grid-column: span 8
+        }
+
+        .col-6 {
+            grid-column: span 6
+        }
+
+        .col-3 {
+            grid-column: span 3
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px
+        }
+
+        .section-title h3 {
+            margin: 0;
+            font-size: 14px
+        }
+
+        .section-title small {
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        /* weekly graph */
+        #weeklyCanvas {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent);
+            border-radius: 8px
+        }
+
+        /* meters */
+        .meters {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .gauge {
+            width: 140px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .gauge svg {
+            display: block
+        }
+
+        .gauge .value {
+            font-weight: 700;
+            margin-top: 6px
+        }
+
+        /* daily loop */
+        .progress-wrap {
+            margin-bottom: 10px
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden
+        }
+
+        .progress-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            transition: width 300ms ease
+        }
+
+        .habit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .habit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--glass)
+        }
+
+        .habit .name {
+            display: flex;
+            flex-direction: column
+        }
+
+        .habit .controls {
+            display: flex;
+            gap: 8px
+        }
+
+        button.btn {
+            border: 0;
+            padding: 8px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        .btn-done {
+            background: linear-gradient(90deg, var(--good), #24cc67);
+            color: #02110a
+        }
+
+        .btn-skip {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--muted)
+        }
+
+        /* notification scheduler */
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .notif {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02)
+        }
+
+        .notif input[type="time"],
+        .notif input[type="text"] {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 8px;
+            border-radius: 8px;
+            color: #e6eef6
+        }
+
+        .notif .actions {
+            margin-left: auto;
+            display: flex;
+            gap: 6px
+        }
+
+        /* responsive */
+        @media (max-width:900px) {
+
+            .col-4,
+            .col-6,
+            .col-8,
+            .col-3 {
+                grid-column: 1/-1
+            }
+
+            .mock-row {
+                justify-content: center
+            }
+
+            .mock-phone {
+                width: 45%
+            }
+
+            .mock-screen {
+                height: 320px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="header">
+            <div class="app-title">
+                <h1>Lifesync Adapter — Dashboard</h1>
+                <p>Daily rhythm, health & wealth at a glance</p>
+            </div>
+            <div style="margin-left:auto;color:var(--muted);font-size:13px">Mobile PWA preview + dashboard</div>
+        </div>
+
+        <div class="mock-row">
+            <!-- Inline SVG mobile mockup image (mobile PWA preview) -->
+            <div class="mock-phone card" aria-hidden="true">
+                <div class="mock-screen" id="phonePreview">
+                    <!-- top area -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <div>
+                            <div style="font-size:12px;color:var(--muted)">Today</div>
+                            <div style="font-weight:700;font-size:16px">Dec 6, 2025</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-size:12px;color:var(--muted)">LA Score</div>
+                            <div style="font-weight:800;font-size:18px">72</div>
+                        </div>
+                    </div>
+
+                    <!-- weekly small sparkline -->
+                    <svg width="100%" height="70" viewBox="0 0 300 70" style="margin-top:10px">
+                        <defs>
+                            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="0">
+                                <stop offset="0" stop-color="#7c3aed" />
+                                <stop offset="1" stop-color="#06b6d4" />
+                            </linearGradient>
+                        </defs>
+                        <!-- background -->
+                        <rect x="0" y="0" width="300" height="70" rx="8" fill="rgba(255,255,255,0.01)"></rect>
+                        <!-- sparkline path -->
+                        <path id="spark" d="M10 50 L40 40 L70 30 L100 35 L130 20 L160 25 L190 18 L220 30 L250 22"
+                            stroke="url(#g1)" stroke-width="3" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+
+                    <!-- three small meters -->
+                    <div style="display:flex;gap:8px;margin-top:8px;justify-content:space-between">
+                        <div style="flex:1;text-align:center">
+                            <div style="font-size:11px;color:var(--muted)">Health</div>
+                            <div style="font-weight:700">78%</div>
+                        </div>
+                        <div style="flex:1;text-align:center">
+                            <div style="font-size:11px;color:var(--muted)">Wealth</div>
+                            <div style="font-weight:700">61%</div>
+                        </div>
+                        <div style="flex:1;text-align:center">
+                            <div style="font-size:11px;color:var(--muted)">Daily</div>
+                            <div style="font-weight:700">2/3</div>
+                        </div>
+                    </div>
+
+                    <!-- footer small -->
+                    <div
+                        style="position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center">
+                        <div style="font-size:12px;color:var(--muted)">Next: Hydration • 08:30</div>
+                        <div
+                            style="background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:8px;font-weight:700">
+                            Open</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- small explanatory card -->
+            <div class="card" style="flex:1;min-width:260px;">
+                <div style="font-weight:700">Mobile PWA preview</div>
+                <div style="color:var(--muted);font-size:13px;margin-top:6px">This is an inline mockup to preview how
+                    the dashboard will appear in a mobile PWA. If this looks good, the full dashboard HTML is below —
+                    fully responsive and interactive.</div>
+                <div style="margin-top:12px;display:flex;gap:8px">
+                    <button id="usePreview" class="btn btn-done" style="padding:8px 12px">Looks good — use</button>
+                    <button id="regenPreview" class="btn btn-skip">Regenerate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- dashboard grid -->
+        <div class="grid">
+            <!-- Weekly Progress Graph full width -->
+            <section class="card full" aria-labelledby="weekly-title">
+                <div class="section-title">
+                    <h3 id="weekly-title">Weekly Progress</h3>
+                    <small>Last 7 days</small>
+                </div>
+                <canvas id="weeklyCanvas"></canvas>
+            </section>
+
+            <!-- Health Meter -->
+            <section class="card col-4" aria-labelledby="health-title">
+                <div class="section-title">
+                    <h3 id="health-title">Health Meter</h3>
+                    <small>Physical & Habits</small>
+                </div>
+                <div class="meters">
+                    <div class="gauge" id="healthGauge">
+                        <svg viewBox="0 0 36 36" width="120" height="120" aria-hidden="true">
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4" />
+                            <path id="healthArc"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="url(#hg)" stroke-width="4" stroke-linecap="round"
+                                stroke-dasharray="0 100" />
+                            <defs>
+                                <linearGradient id="hg" x1="0" x2="1">
+                                    <stop offset="0" stop-color="#7c3aed" />
+                                    <stop offset="1" stop-color="#06b6d4" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="value" id="healthValue">78%</div>
+                        <div style="font-size:12px;color:var(--muted)">Rest • Nutrition • Activity</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wealth Meter -->
+            <section class="card col-4" aria-labelledby="wealth-title">
+                <div class="section-title">
+                    <h3 id="wealth-title">Wealth Meter</h3>
+                    <small>Financial health</small>
+                </div>
+                <div class="meters">
+                    <div class="gauge" id="wealthGauge">
+                        <svg viewBox="0 0 36 36" width="120" height="120" aria-hidden="true">
+                            <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4" />
+                            <path id="wealthArc"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                fill="none" stroke="url(#wg)" stroke-width="4" stroke-linecap="round"
+                                stroke-dasharray="0 100" />
+                            <defs>
+                                <linearGradient id="wg" x1="0" x2="1">
+                                    <stop offset="0" stop-color="#f59e0b" />
+                                    <stop offset="1" stop-color="#ef4444" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="value" id="wealthValue">61%</div>
+                        <div style="font-size:12px;color:var(--muted)">Savings • Income • Goals</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Loop -->
+            <section class="card col-4" aria-labelledby="daily-title">
+                <div class="section-title">
+                    <h3 id="daily-title">Daily Loop</h3>
+                    <small>First 3 habits</small>
+                </div>
+
+                <div class="progress-wrap">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                        <div style="font-size:12px;color:var(--muted)">Completion</div>
+                        <div id="dailyPct" style="font-weight:700">0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-inner" id="dailyProgress"></div>
+                    </div>
+                </div>
+
+                <div class="habit-list" id="habitList">
+                    <!-- habits rendered by JS -->
+                </div>
+            </section>
+
+            <!-- Notification Scheduler -->
+            <section class="card full" aria-labelledby="notif-title">
+                <div class="section-title">
+                    <h3 id="notif-title">Notification Scheduler</h3>
+                    <small>Edit times & tasks</small>
+                </div>
+
+                <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+                    <input id="newTime" type="time" />
+                    <input id="newTask" type="text" placeholder="Task (e.g., Hydration, Walk, Budget review)"
+                        style="flex:1" />
+                    <button id="addNotif" class="btn btn-done">Add</button>
+                </div>
+
+                <div class="notif-list" id="notifList">
+                    <!-- notifications list -->
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;margin-top:12px">
+                    <button id="clearNotifs" class="btn btn-skip">Clear all</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        /***** Demo data & state *****/
+        const demoWeekly = [50, 60, 70, 65, 80, 72, 78]; // last 7 days
+        let healthVal = 78;
+        let wealthVal = 61;
+        const defaultHabits = [
+            { id: "h1", name: "Hydration (8 glasses)", status: "pending" },
+            { id: "h2", name: "Morning Walk - 20m", status: "pending" },
+            { id: "h3", name: "Meditation - 10m", status: "pending" }
+        ];
+
+        /***** Utilities *****/
+        function pctToDash(pct) {
+            // SVG circle arc uses dasharray in percent of circumference -> 100 * pct/100
+            const used = pct;
+            return `${used} ${100 - used}`;
+        }
+
+        /***** Render gauges *****/
+        function setGauge(idArc, value, valueEl) {
+            const pct = Math.max(0, Math.min(100, Math.round(value)));
+            const arc = document.getElementById(idArc);
+            arc.setAttribute('stroke-dasharray', pctToDash(pct));
+            if (valueEl) valueEl.textContent = pct + '%';
+        }
+
+        setGauge('healthArc', healthVal);
+        document.getElementById('healthValue').textContent = healthVal + '%';
+        setGauge('wealthArc', wealthVal);
+        document.getElementById('wealthValue').textContent = wealthVal + '%';
+
+        /***** Weekly Chart (simple canvas line) *****/
+        const canvas = document.getElementById('weeklyCanvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth * devicePixelRatio;
+            canvas.height = 180 * devicePixelRatio;
+            drawWeekly();
+        }
+        function drawWeekly() {
+            const w = canvas.width, h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+            const padding = 28 * devicePixelRatio;
+            const usableW = w - padding * 2;
+            const usableH = h - padding * 2;
+            const maxV = Math.max(...demoWeekly);
+            const minV = Math.min(...demoWeekly);
+            // background gradient
+            const grad = ctx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, 'rgba(124,58,237,0.14)');
+            grad.addColorStop(1, 'rgba(6,182,212,0.02)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(padding, padding, usableW, usableH);
+            // line
+            ctx.beginPath();
+            for (let i = 0; i < demoWeekly.length; i++) {
+                const x = padding + (usableW / (demoWeekly.length - 1)) * i;
+                const v = demoWeekly[i];
+                const y = padding + usableH - ((v - minV) / (maxV - minV || 1)) * usableH;
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+            ctx.lineWidth = 2 * devicePixelRatio;
+            ctx.stroke();
+            // small circles
+            for (let i = 0; i < demoWeekly.length; i++) {
+                const x = padding + (usableW / (demoWeekly.length - 1)) * i;
+                const v = demoWeekly[i];
+                const y = padding + usableH - ((v - minV) / (maxV - minV || 1)) * usableH;
+                ctx.beginPath();
+                ctx.arc(x, y, 3 * devicePixelRatio, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        /***** Daily Loop (habits) *****/
+        const habitListEl = document.getElementById('habitList');
+        let habits = JSON.parse(localStorage.getItem('la_habits')) || defaultHabits.slice();
+
+        function renderHabits() {
+            habitListEl.innerHTML = '';
+            for (const h of habits) {
+                const el = document.createElement('div');
+                el.className = 'habit';
+                el.innerHTML = `
+          <div class="name">
+            <div style="font-weight:700">${h.name}</div>
+            <div style="font-size:12px;color:var(--muted)">${h.status === 'done' ? 'Completed' : (h.status === 'skipped' ? 'Skipped' : 'Pending')}</div>
+          </div>
+          <div class="controls">
+            <button data-id="${h.id}" class="btn btn-skip btn-skip-action">${h.status === 'skipped' ? 'Skipped' : 'Skip'}</button>
+            <button data-id="${h.id}" class="btn btn-done btn-done-action">${h.status === 'done' ? 'Done' : 'Done'}</button>
+          </div>
+        `;
+                habitListEl.appendChild(el);
+            }
+            updateDailyProgress();
+            localStorage.setItem('la_habits', JSON.stringify(habits));
+            // attach listeners
+            document.querySelectorAll('.btn-done-action').forEach(b => {
+                b.onclick = () => {
+                    const id = b.getAttribute('data-id');
+                    habits = habits.map(h => h.id === id ? { ...h, status: h.status === 'done' ? 'pending' : 'done' } : h);
+                    renderHabits();
+                };
+            });
+            document.querySelectorAll('.btn-skip-action').forEach(b => {
+                b.onclick = () => {
+                    const id = b.getAttribute('data-id');
+                    habits = habits.map(h => h.id === id ? { ...h, status: h.status === 'skipped' ? 'pending' : 'skipped' } : h);
+                    renderHabits();
+                };
+            });
+        }
+
+        function updateDailyProgress() {
+            const total = habits.length;
+            const done = habits.filter(h => h.status === 'done').length;
+            const pct = Math.round((done / total) * 100);
+            document.getElementById('dailyProgress').style.width = pct + '%';
+            document.getElementById('dailyPct').textContent = pct + '%';
+        }
+
+        renderHabits();
+
+        /***** Notification scheduler *****/
+        const notifListEl = document.getElementById('notifList');
+        let notifs = JSON.parse(localStorage.getItem('la_notifs')) || [
+            { id: 'n1', time: '08:30', task: 'Hydration' },
+            { id: 'n2', time: '12:30', task: 'Lunch walk' }
+        ];
+
+        function saveNotifs() {
+            localStorage.setItem('la_notifs', JSON.stringify(notifs));
+            renderNotifs();
+        }
+        function renderNotifs() {
+            notifListEl.innerHTML = '';
+            for (const n of notifs) {
+                const row = document.createElement('div');
+                row.className = 'notif';
+                row.innerHTML = `
+          <input type="time" value="${n.time}" data-id="${n.id}" class="notif-time" />
+          <input type="text" value="${escapeHtml(n.task)}" data-id="${n.id}" class="notif-task" style="min-width:140px" />
+          <div class="actions">
+            <button data-id="${n.id}" class="btn btn-done save">Save</button>
+            <button data-id="${n.id}" class="btn btn-skip del">Delete</button>
+          </div>
+        `;
+                notifListEl.appendChild(row);
+            }
+            // listeners
+            document.querySelectorAll('.notif .save').forEach(b => {
+                b.onclick = () => {
+                    const id = b.getAttribute('data-id');
+                    const timeInp = document.querySelector(`.notif-time[data-id="${id}"]`);
+                    const taskInp = document.querySelector(`.notif-task[data-id="${id}"]`);
+                    notifs = notifs.map(x => x.id === id ? { ...x, time: timeInp.value, task: taskInp.value } : x);
+                    saveNotifs();
+                };
+            });
+            document.querySelectorAll('.notif .del').forEach(b => {
+                b.onclick = () => {
+                    const id = b.getAttribute('data-id');
+                    notifs = notifs.filter(x => x.id !== id);
+                    saveNotifs();
+                };
+            });
+        }
+
+        function escapeHtml(s) { return (s + '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]); }
+
+        document.getElementById('addNotif').addEventListener('click', () => {
+            const t = document.getElementById('newTime').value || '09:00';
+            const task = document.getElementById('newTask').value.trim() || 'New task';
+            const id = 'n' + Math.floor(Math.random() * 100000);
+            notifs.push({ id, time: t, task });
+            saveNotifs();
+            document.getElementById('newTask').value = '';
+        });
+
+        document.getElementById('clearNotifs').addEventListener('click', () => {
+            if (confirm('Clear all scheduled notifications?')) { notifs = []; saveNotifs(); }
+        });
+
+        renderNotifs();
+
+        /***** Mockup buttons (for preview use) *****/
+        document.getElementById('usePreview').addEventListener('click', () => {
+            // copy demo state into localStorage so the page uses these as default
+            localStorage.setItem('la_demo_used', '1');
+            alert('Preview selected. Use this file as dashboard — demo state saved to localStorage.');
+        });
+        document.getElementById('regenPreview').addEventListener('click', () => {
+            alert('To regenerate preview image, modify the inline SVG in the file.');
+        });
+
+        /***** small initial sync for gauges when values change *****/
+        setGauge('healthArc', healthVal);
+        setGauge('wealthArc', wealthVal);
+
+        /***** end *****/
+    </script>
+</body>
+
+</html>

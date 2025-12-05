@@ -1,0 +1,97 @@
+<div class="notifications-root">
+    <header class="topbar">
+        <h2>Notifications</h2>
+        <div class="top-actions">
+        </div>
+    </header>
+
+    <main class="content">
+        <!-- Empty state: show centered plus icon and hint -->
+        <ng-container *ngIf="emptyMode && !loading">
+            <div class="empty-state" (click)="openCreate()">
+                <div class="empty-plus">+</div>
+                <p>No reminders yet — tap to create one</p>
+            </div>
+        </ng-container>
+
+        <!-- Paginated list -->
+        <section *ngIf="!emptyMode" class="list-section">
+            <div class="card" *ngFor="let n of notifications">
+                <div class="item-left">
+                    <div class="title">{{ n.title }}</div>
+                    <div class="meta">{{ n.repeat }} • {{ n.day }}</div>
+                </div>
+                <div class="item-right">
+                    <div class="time">{{ n.time }}</div>
+                    <div class="actions">
+                        <button class="icon-btn" (click)="openEdit(n)" title="Edit">✎</button>
+                        <button class="icon-btn" (click)="delete(n)" title="Delete">🗑</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button class="p-btn" (click)="loadPrevious()" [disabled]="loading">‹ Prev</button>
+                <select [(ngModel)]="pageSize" (change)="loadFirstPage()" class="page-select">
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="20">20</option>
+                </select>
+                <button class="p-btn" (click)="loadNext()" [disabled]="loading">Next ›</button>
+            </div>
+
+            <!-- floating add button bottom-right when list exists -->
+            <button class="fab" (click)="openCreate()" aria-label="Add notification">+</button>
+        </section>
+
+        <div *ngIf="loading" class="loading-strip">Loading…</div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-backdrop" *ngIf="showModal" (click)="showModal = false"></div>
+    <div class="modal" *ngIf="showModal" role="dialog" aria-modal="true">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <h3>{{ editing ? 'Edit Reminder' : 'New Reminder' }}</h3>
+
+            <label class="field">
+                <span class="label">Reminder title</span>
+                <input type="text" formControlName="title" placeholder="e.g., Hydration reminder" />
+            </label>
+
+            <div class="grid-2">
+                <label class="field">
+                    <span class="label">Repeat</span>
+                    <select formControlName="repeat">
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    <span class="label">Day</span>
+                    <select formControlName="day">
+                        <option>Everyday</option>
+                        <option>Mon</option>
+                        <option>Tue</option>
+                        <option>Wed</option>
+                        <option>Thu</option>
+                        <option>Fri</option>
+                        <option>Sat</option>
+                        <option>Sun</option>
+                    </select>
+                </label>
+            </div>
+
+            <label class="field">
+                <span class="label">Time</span>
+                <input type="time" formControlName="time" />
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="btn ghost" (click)="showModal=false">Cancel</button>
+                <button type="submit" class="btn primary">{{ editing ? 'Save' : 'Schedule' }}</button>
+            </div>
+        </form>
+    </div>
+</div>
