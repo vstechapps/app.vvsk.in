@@ -42,6 +42,6 @@ export class InstallApp implements OnInit {
   }
 
   openApp() {
-    this.router.navigate(['/']);
+    window.location.href = window.location.origin;
   }
 }

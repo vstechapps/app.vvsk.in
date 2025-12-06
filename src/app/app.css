@@ -1,5 +1,4 @@
 .content {
-    min-height: calc(100vh - 166px);
-    min-height: calc(100dvh - 166px);
+    min-height: calc(100vh - 300px);
     padding: 20px;
 }
