@@ -1,0 +1,14 @@
+<div class="install-container">
+    <h1>Install App</h1>
+    <p>Install this application on your device for a better experience.</p>
+
+    @if (showInstallButton()) {
+    <button class="install-button" (click)="installPwa()">
+        Install App
+    </button>
+    } @else {
+    <p class="install-note">
+        Use Chrome, Edge, or Safari to install this app on your device.
+    </p>
+    }
+</div>

@@ -7,18 +7,6 @@
             </p>
 
             <div class="cta-container">
-                <!-- Browser Mode: Show Install App Button -->
-                <button mat-raised-button color="primary" class="install-button"
-                    *ngIf="!isStandalone && showInstallButton" (click)="installApp()">
-                    <mat-icon>get_app</mat-icon>
-                    Install App
-                </button>
-
-                <!-- Browser Mode: Can't Install Message -->
-                <p class="install-note" *ngIf="!isStandalone && !showInstallButton">
-                    Use Chrome, Edge, or Safari to install this app on your device.
-                </p>
-
                 <!-- PWA Mode: Show Sign in with Google -->
                 <button class="gsi-material-button" *ngIf="isStandalone" (click)="authService.loginWithGoogle()">
                     <div class="gsi-material-button-state"></div>

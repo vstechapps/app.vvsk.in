@@ -8,6 +8,7 @@ import { canActivate, redirectUnauthorizedTo, redirectLoggedInTo } from '@angula
 import { MyBanner } from './components/mybanner/mybanner';
 import { NoInternet } from './components/no-internet/no-internet';
 import { Notifications } from './components/notifications/notifications';
+import { InstallApp } from './components/install-app/install-app';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToDashboard = () => redirectLoggedInTo(['dashboard']);
@@ -21,5 +22,6 @@ export const routes: Routes = [
     { path: 'banner', component: MyBanner },
     { path: 'no-internet', component: NoInternet },
     { path: 'notifications', component: Notifications },
+    { path: 'install-app', component: InstallApp },
     { path: '**', redirectTo: '' }
 ];

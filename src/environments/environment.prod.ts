@@ -2,13 +2,13 @@ export const environment = {
     production: true,
     test: false,
     firebase: {
-        apiKey: "AIzaSyAa3aCpidnJ3MB3D2FlpkCHGuVcRyhfmb8",
-        authDomain: "vvskchaitanya-1.firebaseapp.com",
-        projectId: "vvskchaitanya-1",
-        storageBucket: "vvskchaitanya-1.appspot.com",
-        messagingSenderId: "683857452414",
-        appId: "1:683857452414:web:41b3da4368a3df73d5272f",
-        measurementId: "G-BCJ69CN9L7"
+        apiKey: "AIzaSyBAO3O7xMC8HoyDEiqvKuYzAB1XyYaDpYg",
+        authDomain: "lifestyleadapter.firebaseapp.com",
+        projectId: "lifestyleadapter",
+        storageBucket: "lifestyleadapter.firebasestorage.app",
+        messagingSenderId: "391283581586",
+        appId: "1:391283581586:web:c2296efb45ba65e2c4bc4b",
+        measurementId: "G-Y01W5VQR7N"
     },
     githubToken: ''
 };

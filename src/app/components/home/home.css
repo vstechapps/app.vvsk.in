@@ -47,21 +47,7 @@
     width: 100%;
 }
 
-.install-button {
-    padding: 12px 32px !important;
-    font-size: 1.1rem !important;
-    border-radius: 50px !important;
-    height: auto !important;
-}
 
-.install-note {
-    font-size: 0.95rem;
-    opacity: 0.8;
-    margin: 0;
-    padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-}
 
 /* Google Sign-In Button Styles */
 .gsi-material-button {

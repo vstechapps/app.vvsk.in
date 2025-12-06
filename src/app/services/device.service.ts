@@ -26,13 +26,9 @@ export class DeviceService {
         // @ts-ignore
         const isNavigatorStandalone = window.navigator.standalone; // iOS
         this.isPwa.set(isStandalone || isNavigatorStandalone || false);
-    }
-
-    private checkDeviceType() {
-        const ua = navigator.userAgent;
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-        this.isMobile.set(isMobile);
-        this.isDesktop.set(!isMobile);
+        if (!this.isPwa()) {
+            this.router.navigate(['/install-app']);
+        }
     }
 
     private checkNetwork() {
@@ -48,5 +44,12 @@ export class DeviceService {
         if (!navigator.onLine) {
             this.router.navigate(['/no-internet']);
         }
+    }
+
+    private checkDeviceType() {
+        const ua = navigator.userAgent;
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+        this.isMobile.set(isMobile);
+        this.isDesktop.set(!isMobile);
     }
 }
