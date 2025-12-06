@@ -1,4 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-install-app',
@@ -8,6 +9,7 @@ import { Component, OnInit, signal } from '@angular/core';
   styleUrl: './install-app.css',
 })
 export class InstallApp implements OnInit {
+  private router = inject(Router);
   deferredPrompt: any;
   showInstallButton = signal(false);
 
@@ -37,5 +39,9 @@ export class InstallApp implements OnInit {
       this.deferredPrompt = null;
       this.showInstallButton.set(false);
     }
+  }
+
+  openApp() {
+    this.router.navigate(['/']);
   }
 }

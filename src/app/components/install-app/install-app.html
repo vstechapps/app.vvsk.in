@@ -1,15 +1,33 @@
 <div class="install-container">
-    <img src="icons/la-logo.png" alt="Lifestyle Adapter Logo" class="app-logo">
-    <h1>Lifestyle Adapter</h1>
-    <p>Your personal growth companion for a better lifestyle.</p>
+    <div class="install-card">
+        <img src="icons/la-logo.png" alt="Lifestyle Adapter Logo" class="app-logo">
+        <h1>Lifestyle Adapter</h1>
+        <p class="subtitle">Your personal growth companion for a better lifestyle.</p>
 
-    @if (showInstallButton()) {
-    <button class="install-button" (click)="installPwa()">
-        Install App
-    </button>
-    } @else {
-    <p class="install-note">
-        Use Chrome, Edge, or Safari to install this app on your device.
-    </p>
-    }
+        <div class="actions">
+            @if (showInstallButton()) {
+            <button class="install-button primary" (click)="installPwa()">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="currentColor">
+                        <path
+                            d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+                    </svg>
+                </div>
+                <span>Install App</span>
+            </button>
+            <p class="install-note">
+                Install for the best experience on your device.
+            </p>
+            } @else {
+            <button class="install-button secondary" (click)="openApp()">
+                <span>Open App</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="currentColor">
+                    <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                </svg>
+            </button>
+            }
+        </div>
+    </div>
 </div>
