@@ -1,4 +1,24 @@
-.content {
-    min-height: calc(100vh - 300px);
-    padding: 20px;
+/* app.component.scss */
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Full device height */
+}
+
+.app-header {
+    flex-shrink: 0;
+}
+
+.app-footer {
+    flex-shrink: 0;
+}
+
+.app-main {
+    flex: 1;
+    /* ✅ Takes remaining height automatically */
+    overflow-y: auto;
+    /* ✅ Scrolls only main, not entire page */
+    padding: 16px;
 }
