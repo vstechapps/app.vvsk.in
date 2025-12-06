@@ -4,21 +4,36 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 20px;
   text-align: center;
   background-color: #f5f5f5;
+}
+
+.app-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 24px;
+  border-radius: 20px;
+  /* Optional: adds rounded corners to the logo */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Optional: adds subtle shadow */
 }
 
 h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #333;
+  font-weight: 700;
 }
 
 p {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   color: #666;
   max-width: 400px;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .install-button {
@@ -26,26 +41,35 @@ p {
   /* Primary color */
   color: white;
   border: none;
-  padding: 12px 32px;
+  padding: 14px 36px;
   border-radius: 50px;
   font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(63, 81, 181, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .install-button:hover {
   background-color: #303f9f;
   transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(63, 81, 181, 0.4);
+}
+
+.install-button:active {
+  transform: translateY(0);
 }
 
 .install-note {
   font-size: 0.95rem;
   opacity: 0.8;
   margin: 0;
-  padding: 12px 24px;
+  padding: 16px 24px;
   background: rgba(0, 0, 0, 0.05);
-  /* Adjusted for light bg */
-  border-radius: 8px;
-  color: #333;
+  border-radius: 12px;
+  color: #444;
+  line-height: 1.5;
 }

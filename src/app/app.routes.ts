@@ -9,6 +9,8 @@ import { MyBanner } from './components/mybanner/mybanner';
 import { NoInternet } from './components/no-internet/no-internet';
 import { Notifications } from './components/notifications/notifications';
 import { InstallApp } from './components/install-app/install-app';
+import { PrivacyPolicy } from './components/privacy-policy/privacy-policy';
+import { TermsOfService } from './components/terms-of-service/terms-of-service';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToDashboard = () => redirectLoggedInTo(['dashboard']);
@@ -23,5 +25,7 @@ export const routes: Routes = [
     { path: 'no-internet', component: NoInternet },
     { path: 'notifications', component: Notifications },
     { path: 'install-app', component: InstallApp },
+    { path: 'privacy-policy', component: PrivacyPolicy },
+    { path: 'terms-of-service', component: TermsOfService },
     { path: '**', redirectTo: '' }
 ];
