@@ -5,10 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-no-internet',
-    standalone: true,
-    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule],
-    template: `
+  selector: 'app-no-internet',
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule],
+  template: `
     <div class="no-internet-container">
       <mat-card class="message-card">
         <mat-icon class="error-icon" color="warn">wifi_off</mat-icon>
@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
       </mat-card>
     </div>
   `,
-    styles: [`
+  styles: [`
     .no-internet-container {
       display: flex;
       justify-content: center;
@@ -57,7 +57,7 @@ import { MatIconModule } from '@angular/material/icon';
   `]
 })
 export class NoInternet {
-    retry() {
-        window.location.reload();
-    }
+  retry() {
+    window.location.href = '/';
+  }
 }
