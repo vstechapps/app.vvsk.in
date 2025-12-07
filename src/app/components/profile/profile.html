@@ -2,9 +2,9 @@
     <mat-card class="profile-card">
         <div class="profile-cover"></div>
         <div class="profile-header">
-            <div class="profile-avatar" [style.background-image]="'url(' + (user.photoURL || '') + ')'"></div>
+            <div class="profile-avatar" [style.background-image]="'url(' + (user.pic || '') + ')'"></div>
             <div class="profile-info">
-                <h2 class="profile-name">{{ user.displayName }}</h2>
+                <h2 class="profile-name">{{ user.name }}</h2>
                 <p class="profile-email">{{ user.email }}</p>
             </div>
         </div>
@@ -20,14 +20,9 @@
                     <div matListItemLine class="uid-text">{{ user.uid }}</div>
                 </mat-list-item>
                 <mat-list-item>
-                    <mat-icon matListItemIcon>verified_user</mat-icon>
-                    <div matListItemTitle>Email Verified</div>
-                    <div matListItemLine>{{ user.emailVerified ? 'Yes' : 'No' }}</div>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon matListItemIcon>calendar_today</mat-icon>
-                    <div matListItemTitle>Last Sign In</div>
-                    <div matListItemLine>{{ user.metadata.lastSignInTime | date:'medium' }}</div>
+                    <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+                    <div matListItemTitle>Role</div>
+                    <div matListItemLine>{{ user.role }}</div>
                 </mat-list-item>
             </mat-list>
 

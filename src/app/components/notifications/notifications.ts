@@ -60,30 +60,42 @@ export class Notifications implements OnInit {
         this.loading = true;
         this.pageStack = [];
         this.lastDoc = null;
-        const res = await this.ns.getNotificationsPage(this.pageSize);
-        this.notifications = res.items;
-        this.lastDoc = res.lastDoc || null;
-        this.pageStack.push(this.lastDoc); // push snapshot for first page end
-        this.emptyMode = this.notifications.length === 0;
-        this.loading = false;
+        try {
+            const res = await this.ns.getNotificationsPage(this.pageSize);
+            this.notifications = res.items;
+            this.lastDoc = res.lastDoc || null;
+            this.pageStack.push(this.lastDoc); // push snapshot for first page end
+            this.emptyMode = this.notifications.length === 0;
+        } catch (error) {
+            console.error('Error loading notifications:', error);
+            this.notifications = [];
+            this.emptyMode = true;
+        } finally {
+            this.loading = false;
+        }
     }
 
     /** Load next page */
     async loadNext() {
         if (!this.lastDoc) return;
         this.loading = true;
-        const res = await this.ns.getNotificationsPage(this.pageSize, this.lastDoc);
-        if (res.items.length) {
-            // push current lastDoc to stack for back navigation
-            this.pageStack.push(res.lastDoc || null);
-            this.notifications = res.items;
-            this.lastDoc = res.lastDoc || null;
-        } else {
-            // no more pages
-            this.lastDoc = null;
+        try {
+            const res = await this.ns.getNotificationsPage(this.pageSize, this.lastDoc);
+            if (res.items.length) {
+                // push current lastDoc to stack for back navigation
+                this.pageStack.push(res.lastDoc || null);
+                this.notifications = res.items;
+                this.lastDoc = res.lastDoc || null;
+            } else {
+                // no more pages
+                this.lastDoc = null;
+            }
+            this.emptyMode = this.notifications.length === 0;
+        } catch (error) {
+            console.error('Error loading next page:', error);
+        } finally {
+            this.loading = false;
         }
-        this.emptyMode = this.notifications.length === 0;
-        this.loading = false;
     }
 
     /** Basic previous (back) page implementation using stored stack */
@@ -102,21 +114,26 @@ export class Notifications implements OnInit {
         // Simpler approach: maintain pageSnapshots to be able to re-run queries; here we'll re-run from start and iterate pages until reach desired page.
         // For small page sizes this is acceptable.
         this.loading = true;
-        // Rebuild by iterating pages from scratch until the page stack length indicates the index we want
-        let cursor: QueryDocumentSnapshot<DocumentData> | undefined;
-        let pageIndexToLoad = this.pageStack.length - 1; // zero-based
-        let items: NotificationModel[] = [];
-        // iterate
-        cursor = undefined;
-        for (let i = 0; i <= pageIndexToLoad; i++) {
-            const r = await this.ns.getNotificationsPage(this.pageSize, cursor);
-            items = r.items;
-            cursor = r.lastDoc || undefined;
+        try {
+            // Rebuild by iterating pages from scratch until the page stack length indicates the index we want
+            let cursor: QueryDocumentSnapshot<DocumentData> | undefined;
+            let pageIndexToLoad = this.pageStack.length - 1; // zero-based
+            let items: NotificationModel[] = [];
+            // iterate
+            cursor = undefined;
+            for (let i = 0; i <= pageIndexToLoad; i++) {
+                const r = await this.ns.getNotificationsPage(this.pageSize, cursor);
+                items = r.items;
+                cursor = r.lastDoc || undefined;
+            }
+            this.notifications = items;
+            this.lastDoc = cursor || null;
+            this.emptyMode = this.notifications.length === 0;
+        } catch (error) {
+            console.error('Error loading previous page:', error);
+        } finally {
+            this.loading = false;
         }
-        this.notifications = items;
-        this.lastDoc = cursor || null;
-        this.emptyMode = this.notifications.length === 0;
-        this.loading = false;
     }
 
     openCreate() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
     Firestore,
     collection,
@@ -15,37 +15,47 @@ import {
     QueryDocumentSnapshot,
     getDocs
 } from '@angular/fire/firestore';
-import { Observable, from, map } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { NotificationModel } from './notification.model';
+import { AuthService } from '../../services/auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NotificationService {
-    private collPath = 'notifications';
+    private firestore = inject(Firestore);
+    private authService = inject(AuthService);
 
-    constructor(private firestore: Firestore) { }
+    private async getUserNotificationsPath(): Promise<string> {
+        const user = await firstValueFrom(this.authService.user$);
+        if (!user?.uid) {
+            throw new Error('User not authenticated');
+        }
+        return `users/${user.uid}/notifications`;
+    }
 
     /** Create a new notification */
-    createNotification(payload: NotificationModel): Promise<string> {
-        const col = collection(this.firestore, this.collPath);
-        const docRefPromise = addDoc(col, {
+    async createNotification(payload: NotificationModel): Promise<string> {
+        const path = await this.getUserNotificationsPath();
+        const col = collection(this.firestore, path);
+        const docRef = await addDoc(col, {
             ...payload,
             createdAt: new Date()
         });
-        // return the created doc id (Promise)
-        return docRefPromise.then(ref => ref.id);
+        return docRef.id;
     }
 
     /** Update an existing notification by id */
-    updateNotification(id: string, payload: Partial<NotificationModel>): Promise<void> {
-        const ref = doc(this.firestore, `${this.collPath}/${id}`);
+    async updateNotification(id: string, payload: Partial<NotificationModel>): Promise<void> {
+        const path = await this.getUserNotificationsPath();
+        const ref = doc(this.firestore, `${path}/${id}`);
         return updateDoc(ref, payload);
     }
 
     /** Delete a notification by id */
-    deleteNotification(id: string): Promise<void> {
-        const ref = doc(this.firestore, `${this.collPath}/${id}`);
+    async deleteNotification(id: string): Promise<void> {
+        const path = await this.getUserNotificationsPath();
+        const ref = doc(this.firestore, `${path}/${id}`);
         return deleteDoc(ref);
     }
 
@@ -56,7 +66,8 @@ export class NotificationService {
      * @returns a Promise resolving to { items: NotificationModel[], lastDoc?: QueryDocumentSnapshot }
      */
     async getNotificationsPage(pageSize = 5, startAfterDoc?: QueryDocumentSnapshot<DocumentData>) {
-        const col = collection(this.firestore, this.collPath);
+        const path = await this.getUserNotificationsPath();
+        const col = collection(this.firestore, path);
         let q;
         if (startAfterDoc) {
             q = query(col, orderBy('time'), startAfter(startAfterDoc), limit(pageSize));
@@ -78,8 +89,9 @@ export class NotificationService {
      * Stream notifications (non-paginated).
      * Useful for realtime full-list view (optional).
      */
-    streamNotifications(): Observable<NotificationModel[]> {
-        const col = collection(this.firestore, this.collPath);
+    async streamNotifications(): Promise<Observable<NotificationModel[]>> {
+        const path = await this.getUserNotificationsPath();
+        const col = collection(this.firestore, path);
         // order by time then createdAt for deterministic ordering
         const q = query(col, orderBy('time'), orderBy('createdAt'));
         return collectionData(q, { idField: 'id' }) as Observable<NotificationModel[]>;

@@ -15,11 +15,16 @@ export class FirestoreService {
     return docData(userDoc);
   }
 
-  async initUserData(uid: string) {
+  async initUserData(uid: string, email: string) {
     const userDoc = doc(this.firestore, `users/${uid}`);
     const snapshot = await getDoc(userDoc);
     if (!snapshot.exists()) {
-      await setDoc(userDoc, { laScore: 0 });
+      await setDoc(userDoc, {
+        id: uid,
+        email: email,
+        laScore: 0,
+        createdAt: new Date()
+      });
     }
   }
 }

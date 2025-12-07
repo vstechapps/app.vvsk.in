@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1765054504453,
+  "timestamp": 1765135864142,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -12,7 +12,7 @@
       },
       "urls": [
         "/index.html",
-        "/main-UAFBJS7L.js",
+        "/main-RB6TGHCH.js",
         "/manifest.webmanifest",
         "/styles-6QCCZDQN.css"
       ],
@@ -34,9 +34,9 @@
   "dataGroups": [],
   "hashTable": {
     "/icons/la-logo.png": "01acc749abcaf0a7e31dcabe57c586eb69340666",
-    "/index.html": "36dbbe42f40fab705e6015265820c859bb2b1adb",
-    "/main-UAFBJS7L.js": "ed3f436d9a5894175e40d97a0254e8646d0b196d",
-    "/manifest.webmanifest": "aad02e7932138909ff2a7cfd192b9894448d414b",
+    "/index.html": "0134e1bb5e85b2ed089d135465bce15c8e9c1b7a",
+    "/main-RB6TGHCH.js": "8ff1d4b9127e5eff8930172e94ae41c93eda17c6",
+    "/manifest.webmanifest": "905b76e82a1fe4eb391efe7b3da473ab77a88ba1",
     "/styles-6QCCZDQN.css": "c5e4146c830b95c896ca13ea20046eb7aef66489"
   },
   "navigationUrls": [

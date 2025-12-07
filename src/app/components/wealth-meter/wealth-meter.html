@@ -1,0 +1,25 @@
+<section class="card" aria-labelledby="wealth-title">
+    <div class="section-title">
+        <h3 id="wealth-title">Wealth Meter</h3>
+        <small>Financial health</small>
+    </div>
+    <div class="meters">
+        <div class="gauge">
+            <svg viewBox="0 0 36 36" width="120" height="120" aria-hidden="true">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke="rgba(255,255,255,0.06)" stroke-width="4" />
+                <path [attr.stroke-dasharray]="dashArray"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke="url(#wg)" stroke-width="4" stroke-linecap="round" />
+                <defs>
+                    <linearGradient id="wg" x1="0" x2="1">
+                        <stop offset="0" stop-color="#f59e0b" />
+                        <stop offset="1" stop-color="#ef4444" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="value">{{ value }}%</div>
+            <div style="font-size:12px;color:var(--muted)">Savings • Income • Goals</div>
+        </div>
+    </div>
+</section>

@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,9 @@ export class DeviceService {
         const isNavigatorStandalone = window.navigator.standalone; // iOS
         this.isPwa.set(isStandalone || isNavigatorStandalone || false);
         if (!this.isPwa()) {
-            this.router.navigate(['/install-app']);
+            if (environment.production || environment.test) {
+                this.router.navigate(['/install-app']);
+            }
         }
     }
 

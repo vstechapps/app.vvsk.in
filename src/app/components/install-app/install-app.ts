@@ -42,6 +42,6 @@ export class InstallApp implements OnInit {
   }
 
   openApp() {
-    window.location.href = window.location.origin;
+    window.open(window.location.origin, "_blank");
   }
 }

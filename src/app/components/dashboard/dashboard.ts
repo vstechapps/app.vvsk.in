@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth.service';
+import { AppUser } from '../../app.model';
 import { FirestoreService } from '../../services/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,10 +39,14 @@ Chart.register(
   Legend
 );
 
+import { DailyLoop } from '../daily-loop/daily-loop';
+import { HealthMeter } from '../health-meter/health-meter';
+import { WealthMeter } from '../wealth-meter/wealth-meter';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, BaseChartDirective, MatCardModule, MatIconModule],
+  imports: [CommonModule, BaseChartDirective, MatCardModule, MatIconModule, DailyLoop, HealthMeter, WealthMeter],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -106,17 +111,9 @@ export class Dashboard implements OnInit {
   };
 
   ngOnInit() {
-    this.authService.user$.pipe(
-      switchMap(user => {
-        if (user) {
-          this.firestoreService.initUserData(user.uid);
-          return this.firestoreService.getUserData(user.uid);
-        }
-        return of(null);
-      })
-    ).subscribe(data => {
-      if (data && data['laScore'] !== undefined) {
-        this.laScore = data['laScore'];
+    this.authService.user$.subscribe(user => {
+      if (user && user.laScore !== undefined) {
+        this.laScore = user.laScore;
         this.updateChart(this.laScore);
       }
     });

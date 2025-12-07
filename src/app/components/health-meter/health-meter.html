@@ -1,0 +1,25 @@
+<section class="card" aria-labelledby="health-title">
+    <div class="section-title">
+        <h3 id="health-title">Health Meter</h3>
+        <small>Physical & Habits</small>
+    </div>
+    <div class="meters">
+        <div class="gauge">
+            <svg viewBox="0 0 36 36" width="120" height="120" aria-hidden="true">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke="rgba(255,255,255,0.06)" stroke-width="4" />
+                <path [attr.stroke-dasharray]="dashArray"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke="url(#hg)" stroke-width="4" stroke-linecap="round" />
+                <defs>
+                    <linearGradient id="hg" x1="0" x2="1">
+                        <stop offset="0" stop-color="#7c3aed" />
+                        <stop offset="1" stop-color="#06b6d4" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="value">{{ value }}%</div>
+            <div style="font-size:12px;color:var(--muted)">Rest • Nutrition • Activity</div>
+        </div>
+    </div>
+</section>

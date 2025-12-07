@@ -1,7 +1,7 @@
 {
   "name": "Lifestyle Adapter",
-  "short_name": "LA",
-  "description": "Transform your life with data-driven lifestyle adaptation",
+  "short_name": "Lifestyle Adapter",
+  "description": "Transform your life with AI driven lifestyle adaptation",
   "theme_color": "#3f51b5",
   "background_color": "#fafafa",
   "display": "standalone",

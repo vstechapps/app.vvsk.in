@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
 import { MatMenuModule } from '@angular/material/menu';
