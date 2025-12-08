@@ -33,7 +33,8 @@ export class AuthService {
               email: authUser.email,
               pic: authUser.photoURL,
               role: 'USER',
-              laScore: 0
+              laScore: 0,
+              emailVerified: authUser.emailVerified
             };
             await setDoc(userDocRef, newUser);
             return newUser;

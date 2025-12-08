@@ -9,6 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from './notifications.service';
 import { NotificationModel } from './notification.model';
 import { QueryDocumentSnapshot, DocumentData } from '@angular/fire/firestore';
+import { AuthService } from '../../services/auth.service';
+import { firstValueFrom } from 'rxjs';
+import { AppUser } from '../../app.model';
 
 interface NotificationItem {
     id: string;
@@ -40,9 +43,13 @@ export class Notifications implements OnInit {
     // UI helpers
     emptyMode = false;
 
+    user: AppUser | null = null;
+
+
     constructor(
         private ns: NotificationService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private authService: AuthService
     ) {
         this.form = this.fb.group({
             title: ['', Validators.required],
@@ -50,14 +57,15 @@ export class Notifications implements OnInit {
             day: ['Everyday'],
             time: ['', [Validators.required, Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)]]
         });
+        this.authService.user$.subscribe(user => this.user = user);
     }
 
     ngOnInit() {
+        this.loading = true;
         this.loadFirstPage();
     }
 
     async loadFirstPage() {
-        this.loading = true;
         this.pageStack = [];
         this.lastDoc = null;
         try {
@@ -158,7 +166,16 @@ export class Notifications implements OnInit {
             this.form.markAllAsTouched();
             return;
         }
+
+        // Get current user uid
+        const currentUser = await firstValueFrom(this.authService.user$);
+        if (!currentUser?.uid) {
+            console.error('No user logged in');
+            return;
+        }
+
         const payload: NotificationModel = {
+            user: currentUser.uid,
             title: this.form.value.title,
             repeat: this.form.value.repeat,
             day: this.form.value.day,

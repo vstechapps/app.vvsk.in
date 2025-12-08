@@ -6,4 +6,5 @@ export interface AppUser {
     pic: string | null;
     role: string;
     laScore?: number;
+    emailVerified?: boolean;
 }

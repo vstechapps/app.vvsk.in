@@ -24,6 +24,11 @@
                     <div matListItemTitle>Role</div>
                     <div matListItemLine>{{ user.role }}</div>
                 </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListItemIcon>verified_user</mat-icon>
+                    <div matListItemTitle>Email Verified</div>
+                    <div matListItemLine>{{ user.emailVerified ? 'Yes' : 'No' }}</div>
+                </mat-list-item>
             </mat-list>
 
             <mat-divider></mat-divider>
