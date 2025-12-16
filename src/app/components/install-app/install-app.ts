@@ -49,11 +49,9 @@ export class InstallApp implements OnInit {
   openApp() {
     if (this.isStandalone()) {
       // Already inside PWA → just navigate
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/login');
     } else {
-      // Browser cannot open PWA programmatically
-      // Show instruction instead
-      alert('Please open the app from your home screen for the best experience.');
+      window.location.href = "https://la.vvsk.in";
     }
   }
 }
