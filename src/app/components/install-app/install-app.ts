@@ -41,7 +41,19 @@ export class InstallApp implements OnInit {
     }
   }
 
+  isStandalone(): boolean {
+    return window.matchMedia('(display-mode: standalone)').matches
+      || (navigator as any).standalone === true;
+  }
+
   openApp() {
-    window.open(window.location.origin, "_blank");
+    if (this.isStandalone()) {
+      // Already inside PWA → just navigate
+      this.router.navigateByUrl('/home');
+    } else {
+      // Browser cannot open PWA programmatically
+      // Show instruction instead
+      alert('Please open the app from your home screen for the best experience.');
+    }
   }
 }
