@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class InstallApp implements OnInit {
   private router = inject(Router);
   deferredPrompt: any;
-  showInstallButton = signal(false);
+  showInstallButton = signal(true);
 
   ngOnInit() {
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -51,7 +51,20 @@ export class InstallApp implements OnInit {
       // Already inside PWA → just navigate
       this.router.navigateByUrl('/login');
     } else {
-      window.location.href = "https://la.vvsk.in";
+      showToast('Opening app in 5 seconds...');
+      setTimeout(() => {
+        window.location.href = "https://la.vvsk.in?open=true";
+      }, 5000);
     }
   }
 }
+function showToast(arg0: string) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = arg0;
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
