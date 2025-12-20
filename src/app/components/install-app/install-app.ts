@@ -49,7 +49,7 @@ export class InstallApp implements OnInit {
   openApp() {
     if (this.isStandalone()) {
       // Already inside PWA → just navigate
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/home');
     } else {
       showToast('Opening app in 5 seconds...');
       setTimeout(() => {

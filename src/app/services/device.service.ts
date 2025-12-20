@@ -18,8 +18,36 @@ export class DeviceService {
             this.checkPwa();
             this.checkDeviceType();
             this.checkNetwork();
+            this.registerPeriodicSync();
             resolve();
         });
+    }
+
+    async registerPeriodicSync() {
+        if ('serviceWorker' in navigator && 'periodicSync' in (navigator as any).serviceWorker) {
+            const registration = await navigator.serviceWorker.ready;
+            try {
+                // @ts-ignore
+                await registration.periodicSync.register('notification-check', {
+                    minInterval: 30 * 60 * 1000, // 30 mins
+                });
+                console.log('Periodic sync registered');
+            } catch (err) {
+                console.error('Periodic sync registration failed', err);
+            }
+        }
+    }
+
+    async syncNotifications(notifications: any[]) {
+        if ('serviceWorker' in navigator) {
+            const registration = await navigator.serviceWorker.ready;
+            if (registration.active) {
+                registration.active.postMessage({
+                    type: 'SYNC_NOTIFICATIONS',
+                    notifications
+                });
+            }
+        }
     }
 
     private checkPwa() {
