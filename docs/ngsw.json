@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1766349981927,
+  "timestamp": 1766350448069,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -12,7 +12,7 @@
       },
       "urls": [
         "/index.html",
-        "/main-B2KG36J3.js",
+        "/main-UPFCKYVC.js",
         "/manifest.webmanifest",
         "/styles-6QCCZDQN.css",
         "/sw-custom.js"
@@ -35,11 +35,11 @@
   "dataGroups": [],
   "hashTable": {
     "/icons/la-logo.png": "01acc749abcaf0a7e31dcabe57c586eb69340666",
-    "/index.html": "e544f427a98f4ea7abfcbf3d9c94c6b5a0977f29",
-    "/main-B2KG36J3.js": "f80348820354b571a06bd0fe47f5216b3fbb8be6",
+    "/index.html": "bc355cac716c9d021f99efc7c4fa84f54eb58a47",
+    "/main-UPFCKYVC.js": "bbc1c8ed5d47e7ec0c234934658a55d9e75f5328",
     "/manifest.webmanifest": "dfc00be345f28b36a4fccb60b2e20b78a28a76e3",
     "/styles-6QCCZDQN.css": "c5e4146c830b95c896ca13ea20046eb7aef66489",
-    "/sw-custom.js": "50afc285f49d1d16a7be00d9d25864ca84981d1f"
+    "/sw-custom.js": "c72fef1cbf307fb3728001fc801c91c4adb3bf73"
   },
   "navigationUrls": [
     {

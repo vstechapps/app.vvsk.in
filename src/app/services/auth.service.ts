@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, user as firebaseUser } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Observable, switchMap, from, of } from 'rxjs';
+import { Observable, switchMap, from, of, shareReplay } from 'rxjs';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { AppUser } from '../app.model';
 
@@ -39,11 +39,11 @@ export class AuthService {
             await setDoc(userDocRef, newUser);
             return newUser;
           }
-          // Return existing user document from Firestore
           return snapshot.data() as AppUser;
         })
       );
-    })
+    }),
+    shareReplay(1)
   );
 
   constructor() { }

@@ -43,7 +43,12 @@
             <button class="fab" (click)="openCreate()" aria-label="Add notification">+</button>
         </section>
 
-        <div *ngIf="loading" class="loading-strip">Loading…</div>
+
+        <!-- Modern Loader -->
+        <div *ngIf="loading" class="loader-overlay">
+            <div class="spinner"></div>
+            <div class="loader-text">Loading ...</div>
+        </div>
     </main>
 
     <!-- Modal -->

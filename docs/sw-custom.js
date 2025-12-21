@@ -94,8 +94,8 @@ async function checkAndNotify() {
             console.log('SW: Match found! Sending notification for:', n.title);
             self.registration.showNotification('Lifestyle Reminder', {
                 body: `${n.title} at ${n.time}`,
-                icon: '/icons/icon-192x192.png',
-                badge: '/icons/icon-192x192.png',
+                icon: '/icons/la-logo.png',
+                badge: '/icons/la-logo.png',
                 vibrate: [200, 100, 200],
                 data: { url: '/notifications' }
             });
