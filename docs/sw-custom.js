@@ -20,6 +20,7 @@ function openDB() {
 
 // Save notifications to IndexedDB
 async function saveNotifications(notifications) {
+    console.log('SW: Saving notifications to IndexedDB', notifications);
     const db = await openDB();
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
@@ -55,7 +56,7 @@ async function getNotifications() {
     });
 }
 
-// Logic to check if a notification is within the next hour
+// Logic to check if a notification is within the next 10 minutes
 function isUpcoming(n, now) {
     if (!n.time) return false;
 
@@ -63,15 +64,11 @@ function isUpcoming(n, now) {
     const target = new Date(now);
     target.setHours(hours, minutes, 0, 0);
 
-    // If repeat is Daily/Everyday, just check time
-    // If target time has already passed today, it might be for tomorrow, 
-    // but the user said "within next 1 hour", so we only care about upcoming in this hour.
-
     const diffMs = target.getTime() - now.getTime();
-    const oneHourMs = 60 * 60 * 1000;
+    const tenMinsMs = 10 * 60 * 1000;
 
-    // Check if within next 1 hour (0 to 60 mins)
-    if (diffMs > 0 && diffMs <= oneHourMs) {
+    // Check if within next 10 minutes (0 to 10 mins)
+    if (diffMs > 0 && diffMs <= tenMinsMs) {
         // Now check day logic
         if (n.day === 'Everyday' || n.repeat === 'Daily') return true;
 
@@ -87,11 +84,14 @@ function isUpcoming(n, now) {
 }
 
 async function checkAndNotify() {
+    console.log('SW: Checking notifications at', new Date().toLocaleTimeString());
     const now = new Date();
     const notifications = await getNotifications();
+    console.log('SW: Found stored notifications:', notifications.length);
 
     for (const n of notifications) {
         if (isUpcoming(n, now)) {
+            console.log('SW: Match found! Sending notification for:', n.title);
             self.registration.showNotification('Lifestyle Reminder', {
                 body: `${n.title} at ${n.time}`,
                 icon: '/icons/icon-192x192.png',
@@ -117,7 +117,12 @@ self.addEventListener('periodicsync', (event) => {
     }
 });
 
-// Fallback: Check on push or other events if needed
+// Listen for push if ever implemented
+self.addEventListener('push', (event) => {
+    // Optional placeholder for server-side push
+});
+
+// Handle notification click
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     const urlToOpen = event.notification.data?.url || '/';

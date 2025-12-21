@@ -29,7 +29,7 @@ export class DeviceService {
             try {
                 // @ts-ignore
                 await registration.periodicSync.register('notification-check', {
-                    minInterval: 30 * 60 * 1000, // 30 mins
+                    minInterval: 5 * 60 * 1000, // 5 mins
                 });
                 console.log('Periodic sync registered');
             } catch (err) {
@@ -39,6 +39,7 @@ export class DeviceService {
     }
 
     async syncNotifications(notifications: any[]) {
+        console.log('Syncing notifications to Service Worker:', notifications.length, 'tasks');
         if ('serviceWorker' in navigator) {
             const registration = await navigator.serviceWorker.ready;
             if (registration.active) {
@@ -46,7 +47,12 @@ export class DeviceService {
                     type: 'SYNC_NOTIFICATIONS',
                     notifications
                 });
+                console.log('Sync message sent to active Service Worker');
+            } else {
+                console.warn('Service Worker active instance not found for sync');
             }
+        } else {
+            console.warn('Service Worker not supported or not registered');
         }
     }
 
