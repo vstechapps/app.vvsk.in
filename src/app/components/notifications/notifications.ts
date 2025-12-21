@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +10,7 @@ import { NotificationService } from './notifications.service';
 import { NotificationModel } from './notification.model';
 import { QueryDocumentSnapshot, DocumentData } from '@angular/fire/firestore';
 import { AuthService } from '../../services/auth.service';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppUser } from '../../app.model';
 import { DeviceService } from '../../services/device.service';
 
@@ -40,7 +40,8 @@ export class Notifications implements OnInit, OnDestroy {
         private ns: NotificationService,
         private fb: FormBuilder,
         private authService: AuthService,
-        private deviceService: DeviceService
+        private deviceService: DeviceService,
+        private cdr: ChangeDetectorRef
     ) {
         this.form = this.fb.group({
             title: ['', Validators.required],
@@ -57,9 +58,11 @@ export class Notifications implements OnInit, OnDestroy {
                 this.user = user;
                 this.loadFirstPage();
                 this.requestNotificationPermission();
+                this.cdr.detectChanges();
             } else {
                 this.loading = false;
                 this.emptyMode = true;
+                this.cdr.detectChanges();
             }
         });
     }
@@ -92,6 +95,7 @@ export class Notifications implements OnInit, OnDestroy {
             this.emptyMode = true;
         } finally {
             this.loading = false;
+            this.cdr.detectChanges();
         }
     }
 
@@ -108,10 +112,12 @@ export class Notifications implements OnInit, OnDestroy {
                 this.lastDoc = null;
             }
             this.emptyMode = this.notifications.length === 0;
+            this.deviceService.syncNotifications(this.notifications);
         } catch (error) {
             console.error('Error loading next page:', error);
         } finally {
             this.loading = false;
+            this.cdr.detectChanges();
         }
     }
 
@@ -141,6 +147,7 @@ export class Notifications implements OnInit, OnDestroy {
             console.error('Error loading previous page:', error);
         } finally {
             this.loading = false;
+            this.cdr.detectChanges();
         }
     }
 
@@ -148,6 +155,7 @@ export class Notifications implements OnInit, OnDestroy {
         this.editing = null;
         this.form.reset({ title: '', repeat: 'Daily', day: 'Everyday', time: '' });
         this.showModal = true;
+        this.cdr.detectChanges();
     }
 
     openEdit(n: NotificationModel) {
@@ -159,6 +167,7 @@ export class Notifications implements OnInit, OnDestroy {
             time: n.time
         });
         this.showModal = true;
+        this.cdr.detectChanges();
     }
 
     async submit() {
@@ -180,8 +189,8 @@ export class Notifications implements OnInit, OnDestroy {
             await this.ns.createNotification(this.user.uid, payload);
         }
         await this.loadFirstPage();
-        this.deviceService.syncNotifications(this.notifications);
         this.showModal = false;
+        this.cdr.detectChanges();
     }
 
     async delete(n: NotificationModel) {
@@ -189,6 +198,6 @@ export class Notifications implements OnInit, OnDestroy {
         if (!confirm(`Delete "${n.title}"?`)) return;
         await this.ns.deleteNotification(this.user.uid, n.id);
         await this.loadFirstPage();
-        this.deviceService.syncNotifications(this.notifications);
+        this.cdr.detectChanges();
     }
 }

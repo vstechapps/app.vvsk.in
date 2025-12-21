@@ -83,14 +83,24 @@ export class NotificationService {
     }
 
     /**
+     * Get all notifications as a promise
+     */
+    async getAllNotifications(uid: string): Promise<NotificationModel[]> {
+        const path = this.getUserNotificationsPath(uid);
+        const col = collection(this.firestore, path);
+        const q = query(col, orderBy('time'));
+        const snap = await getDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) } as NotificationModel));
+    }
+
+    /**
      * Stream notifications (non-paginated).
-     * Useful for realtime full-list view (optional).
+     * Useful for realtime full-list view.
      */
     streamNotifications(uid: string): Observable<NotificationModel[]> {
         const path = this.getUserNotificationsPath(uid);
         const col = collection(this.firestore, path);
-        // order by time then createdAt for deterministic ordering
-        const q = query(col, orderBy('time'), orderBy('createdAt'));
+        const q = query(col, orderBy('time'));
         return collectionData(q, { idField: 'id' }) as Observable<NotificationModel[]>;
     }
 }
