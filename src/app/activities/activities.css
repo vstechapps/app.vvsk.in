@@ -1,0 +1,100 @@
+.activities {
+    padding: 16px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.activities header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.activities header h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.activities .nav-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.activities .search {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin: 12px 0;
+}
+
+.activities .section-title {
+    margin: 18px 0 8px;
+    font-weight: 600;
+    color: #666;
+}
+
+.activities .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.activities .card {
+    background: linear-gradient(135deg, #f3f7fb, #eef2f7);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.activities .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.activities .card .icon {
+    font-size: 24px;
+}
+
+.activities .card .label {
+    flex: 1;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+.activities .card .check {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: white;
+}
+
+.activities .card .check.checked {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.activities .save {
+    margin-top: 22px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(135deg, #4f8df7, #3b82f6);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}

@@ -1,0 +1,27 @@
+<div class="activities">
+
+    <header>
+        <button class="nav-btn">←</button>
+        <h2>Add Activity</h2>
+        <button class="nav-btn">✕</button>
+    </header>
+
+    <input class="search" placeholder="Search activities" [(ngModel)]="search" (input)="filter()" />
+
+    <ng-container *ngFor="let cat of ['move','care','mind','learn','create']">
+
+        <h3 class="section-title">{{ cat | titlecase }}</h3>
+
+        <div class="grid">
+            <div class="card" *ngFor="let a of byCategory(cat)" (click)="toggle(a.id!)">
+                <span class="icon material-icons">{{ a.icon }}</span>
+                <span class="label">{{ a.name }}</span>
+                <span class="check" [class.checked]="selected.has(a.id!)">✔</span>
+            </div>
+        </div>
+
+    </ng-container>
+
+    <button class="save" (click)="save()">Save</button>
+
+</div>

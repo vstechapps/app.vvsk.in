@@ -11,6 +11,8 @@ import { Notifications } from './components/notifications/notifications';
 import { InstallApp } from './components/install-app/install-app';
 import { PrivacyPolicy } from './components/privacy-policy/privacy-policy';
 import { TermsOfService } from './components/terms-of-service/terms-of-service';
+import { DailyLoop } from './components/daily-loop/daily-loop';
+import { Activities } from './activities/activities';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToDashboard = () => redirectLoggedInTo(['dashboard']);
@@ -21,6 +23,8 @@ export const routes: Routes = [
     { path: 'logout', component: Logout },
     { path: 'dashboard', component: Dashboard, ...canActivate(redirectUnauthorizedToLogin) },
     { path: 'profile', component: Profile, ...canActivate(redirectUnauthorizedToLogin) },
+    { path: 'activities', component: Activities, ...canActivate(redirectUnauthorizedToLogin) },
+    { path: 'daily-loop', component: DailyLoop, ...canActivate(redirectUnauthorizedToLogin) },
     { path: 'banner', component: MyBanner },
     { path: 'no-internet', component: NoInternet },
     { path: 'notifications', component: Notifications },

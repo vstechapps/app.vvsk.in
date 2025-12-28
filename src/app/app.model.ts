@@ -7,4 +7,7 @@ export interface AppUser {
     role: string;
     laScore?: number;
     emailVerified?: boolean;
+    gender?: string | null;
+    dateOfBirth?: string | null;
+    phoneNumber?: string | null;
 }

@@ -1,4 +1,10 @@
 <div class="profile-container" *ngIf="user$ | async as user">
+
+    <div class="warning-alert" *ngIf="isProfileIncomplete(user)">
+        <mat-icon>warning</mat-icon>
+        <span>Your profile is incomplete. Please add your Gender and Date of Birth below.</span>
+    </div>
+
     <mat-card class="profile-card">
         <div class="profile-cover"></div>
         <div class="profile-header">
@@ -30,6 +36,45 @@
                     <div matListItemLine>{{ user.emailVerified ? 'Yes' : 'No' }}</div>
                 </mat-list-item>
             </mat-list>
+
+            <mat-divider></mat-divider>
+
+            <div class="personal-details-section">
+                <h3 mat-subheader>Personal Details</h3>
+                <form (ngSubmit)="saveProfile()" class="profile-form">
+                    <div class="form-row">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Gender</mat-label>
+                            <mat-select [(ngModel)]="formData.gender" name="gender" required>
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+                                <mat-option value="Other">Other</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="dobPicker" [(ngModel)]="formData.dateOfBirth" name="dob"
+                                required>
+                            <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dobPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput [(ngModel)]="formData.phoneNumber" name="phoneNumber" placeholder="+1234567890">
+                        <mat-icon matSuffix>phone</mat-icon>
+                    </mat-form-field>
+
+                    <div class="form-actions">
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="!formData.gender || !formData.dateOfBirth">
+                            <mat-icon>save</mat-icon> Save Details
+                        </button>
+                    </div>
+                </form>
+            </div>
 
             <mat-divider></mat-divider>
 
