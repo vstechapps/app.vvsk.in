@@ -16,7 +16,11 @@ export class InstallApp implements OnInit {
   constructor() {
     let app_installed = localStorage.getItem("APP_INSTALLED");
     if (app_installed == null || app_installed == "false") {
+      // App not installed on device
       this.showInstallButton = signal(true);
+    } else if (this.isStandalone()) {
+      // Already inside PWA → just navigate
+      this.router.navigateByUrl('/home');
     }
   }
 
@@ -56,15 +60,8 @@ export class InstallApp implements OnInit {
   }
 
   openApp() {
-    if (this.isStandalone()) {
-      // Already inside PWA → just navigate
-      this.router.navigateByUrl('/home');
-    } else {
-      showToast('Opening app in 5 seconds...');
-      setTimeout(() => {
-        window.location.href = "https://la.vvsk.in?open=true";
-      }, 5000);
-    }
+
+    window.location.href = "https://la.vvsk.in?open=true";
   }
 }
 function showToast(arg0: string) {
