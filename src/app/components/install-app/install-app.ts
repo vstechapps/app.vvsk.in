@@ -11,7 +11,14 @@ import { Router } from '@angular/router';
 export class InstallApp implements OnInit {
   private router = inject(Router);
   deferredPrompt: any;
-  showInstallButton = signal(true);
+  showInstallButton = signal(false);
+
+  constructor() {
+    let app_installed = localStorage.getItem("APP_INSTALLED");
+    if (app_installed == null || app_installed == "false") {
+      this.showInstallButton = signal(true);
+    }
+  }
 
   ngOnInit() {
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -32,8 +39,10 @@ export class InstallApp implements OnInit {
       const { outcome } = await this.deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         console.log('User accepted the install prompt');
+        localStorage.setItem("APP_INSTALLED", "true")
       } else {
         console.log('User dismissed the install prompt');
+        localStorage.setItem("APP_INSTALLED", "false")
       }
       // We've used the prompt, and can't use it again, throw it away
       this.deferredPrompt = null;
