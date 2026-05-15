@@ -43,10 +43,11 @@ export class InstallApp implements OnInit {
       const { outcome } = await this.deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         console.log('User accepted the install prompt');
-        localStorage.setItem("APP_INSTALLED", "true")
+        localStorage.setItem("APP_INSTALLED", "true");
+        this.router.navigateByUrl('/home');
       } else {
         console.log('User dismissed the install prompt');
-        localStorage.setItem("APP_INSTALLED", "false")
+        localStorage.setItem("APP_INSTALLED", "false");
       }
       // We've used the prompt, and can't use it again, throw it away
       this.deferredPrompt = null;
@@ -60,17 +61,7 @@ export class InstallApp implements OnInit {
   }
 
   openApp() {
-
     window.location.href = "https://la.vvsk.in?open=true";
   }
-}
-function showToast(arg0: string) {
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.textContent = arg0;
-  document.body.appendChild(toast);
-  setTimeout(() => {
-    toast.remove();
-  }, 3000);
 }
 

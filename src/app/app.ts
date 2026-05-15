@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
+import { DeviceService } from './services/device.service';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,21 @@ import { Footer } from './components/footer/footer';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class AppComponent implements OnInit {
+export class App implements OnInit {
   title = 'lifestyle-adapter';
   router = inject(Router);
 
-  ngOnInit() {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-    if (isStandalone) {
-      if (!navigator.onLine) {
-        this.router.navigate(['/no-internet']);
-      }
-    }
+  constructor(public ds: DeviceService) {
+
   }
+
+  ngOnInit() {
+    window.addEventListener('DOMContentLoaded', () => {
+      // Log launch display mode to analytics
+      console.log('Device: ', this.ds.device);
+      alert(this.ds.device);
+    });
+  }
+
+
 }

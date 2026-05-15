@@ -11,3 +11,21 @@ export interface AppUser {
     dateOfBirth?: string | null;
     phoneNumber?: string | null;
 }
+
+export enum DeviceType {
+    MOBILE, DESKTOP, UNKNOWN
+}
+
+
+export enum AppMode {
+    STANDALONE, BROWSER, UNKNOWN
+}
+
+export interface Device {
+    type: DeviceType;
+    mode: AppMode;
+    online: boolean;
+}
+
+export const DEFAULT_DEVICE: Device = { online: false, type: DeviceType.UNKNOWN, mode: AppMode.UNKNOWN };
+

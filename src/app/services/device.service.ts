@@ -1,23 +1,23 @@
-import { Injectable, signal } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { AppMode, DEFAULT_DEVICE, Device, DeviceType } from '../app.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DeviceService {
-    isPwa = signal(false);
-    isMobile = signal(false);
-    isDesktop = signal(false);
-    isOnline = signal(true);
 
-    constructor(private router: Router) { }
+    device: Device = DEFAULT_DEVICE;
+
+    constructor(private router: Router) {
+        this.checkPwa();
+        this.checkNetwork();
+        this.checkDeviceType();
+    }
 
     initialize(): Promise<void> {
         return new Promise((resolve) => {
-            this.checkPwa();
-            this.checkDeviceType();
-            this.checkNetwork();
             this.registerPeriodicSync();
             resolve();
         });
@@ -57,24 +57,21 @@ export class DeviceService {
     }
 
     private checkPwa() {
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        let isStandalone = window.matchMedia('(display-mode: standalone)').matches;
         // @ts-ignore
         const isNavigatorStandalone = window.navigator.standalone; // iOS
-        this.isPwa.set(isStandalone || isNavigatorStandalone || false);
-        if (!this.isPwa()) {
-            if (environment.production || environment.test) {
-                this.router.navigate(['/install-app']);
-            }
-        }
+
+        isStandalone = isStandalone || isNavigatorStandalone;
+        this.device.mode = isStandalone ? AppMode.STANDALONE : AppMode.BROWSER;
     }
 
     private checkNetwork() {
-        this.isOnline.set(navigator.onLine);
+        this.device.online = navigator.onLine;
         window.addEventListener('online', () => {
-            this.isOnline.set(true);
+            this.device.online = true;
         });
         window.addEventListener('offline', () => {
-            this.isOnline.set(false);
+            this.device.online = false;
             this.router.navigate(['/no-internet']);
         });
 
@@ -86,7 +83,6 @@ export class DeviceService {
     private checkDeviceType() {
         const ua = navigator.userAgent;
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-        this.isMobile.set(isMobile);
-        this.isDesktop.set(!isMobile);
+        this.device.type = isMobile ? DeviceType.MOBILE : DeviceType.DESKTOP;
     }
 }
