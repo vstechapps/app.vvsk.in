@@ -3,6 +3,7 @@ import { RouterOutlet, Router } from '@angular/router';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
 import { DeviceService } from './services/device.service';
+import { AppMode, DeviceType } from './app.model';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,6 @@ export class App implements OnInit {
     window.addEventListener('DOMContentLoaded', () => {
       // Log launch display mode to analytics
       console.log('Device: ', this.ds.device);
-      alert(JSON.stringify(this.ds.device));
     });
   }
 

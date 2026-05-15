@@ -63,6 +63,9 @@ export class DeviceService {
 
         isStandalone = isStandalone || isNavigatorStandalone;
         this.device.mode = isStandalone ? AppMode.STANDALONE : AppMode.BROWSER;
+        if (this.device.mode == AppMode.BROWSER) {
+            this.router.navigate(['/install-app']);
+        }
     }
 
     private checkNetwork() {
