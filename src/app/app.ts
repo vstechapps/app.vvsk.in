@@ -23,7 +23,7 @@ export class App implements OnInit {
     window.addEventListener('DOMContentLoaded', () => {
       // Log launch display mode to analytics
       console.log('Device: ', this.ds.device);
-      alert(this.ds.device);
+      alert(JSON.stringify(this.ds.device));
     });
   }
 

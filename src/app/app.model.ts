@@ -13,12 +13,12 @@ export interface AppUser {
 }
 
 export enum DeviceType {
-    MOBILE, DESKTOP, UNKNOWN
+    MOBILE = "MOBILE", DESKTOP = "DESKTOP", UNKNOWN = "UNKNOWN"
 }
 
 
 export enum AppMode {
-    STANDALONE, BROWSER, UNKNOWN
+    STANDALONE = "STANDALONE", BROWSER = "BROWSER", UNKNOWN = "UNKNOWN"
 }
 
 export interface Device {
