@@ -13,11 +13,10 @@ export class InstallApp implements OnInit {
   deferredPrompt: any;
   showInstallButton = signal(false);
   //@ts-ignore
-  installedRelatedApps: any = await navigator.getInstalledRelatedApps?.();
+
 
   constructor() {
-    console.log(JSON.stringify(this.installedRelatedApps));
-    alert(JSON.stringify(this.installedRelatedApps));
+    localStorage.clear();
     let app_installed = localStorage.getItem("APP_INSTALLED");
     if (app_installed == null || app_installed == "false") {
       // App not installed on device
@@ -40,6 +39,12 @@ export class InstallApp implements OnInit {
   }
 
   async installPwa() {
+
+    //@ts-ignore
+    let installedRelatedApps: any = await navigator.getInstalledRelatedApps?.();
+    console.log(JSON.stringify(installedRelatedApps));
+    alert(JSON.stringify(installedRelatedApps));
+
     if (this.deferredPrompt) {
       // Show the install prompt
       this.deferredPrompt.prompt();
