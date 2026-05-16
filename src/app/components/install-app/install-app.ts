@@ -12,11 +12,9 @@ export class InstallApp implements OnInit {
   private router = inject(Router);
   deferredPrompt: any;
   showInstallButton = signal(false);
-  //@ts-ignore
-
 
   constructor() {
-    this.checkPwa();
+
   }
 
   ngOnInit() {
@@ -30,17 +28,7 @@ export class InstallApp implements OnInit {
     });
   }
 
-  async checkPwa() {
-    //@ts-ignore
-    let installedRelatedApps: any = await navigator.getInstalledRelatedApps?.();
-    console.log(JSON.stringify(installedRelatedApps));
-    alert(JSON.stringify(installedRelatedApps));
-
-  }
-
   async installPwa() {
-
-
 
     if (this.deferredPrompt) {
       // Show the install prompt
@@ -50,7 +38,7 @@ export class InstallApp implements OnInit {
       if (outcome === 'accepted') {
         console.log('User accepted the install prompt');
         localStorage.setItem("APP_INSTALLED", "true");
-        this.router.navigateByUrl('/home');
+        this.showInstallButton.set(false);
       } else {
         console.log('User dismissed the install prompt');
         localStorage.setItem("APP_INSTALLED", "false");
