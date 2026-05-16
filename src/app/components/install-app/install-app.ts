@@ -16,15 +16,7 @@ export class InstallApp implements OnInit {
 
 
   constructor() {
-    localStorage.clear();
-    let app_installed = localStorage.getItem("APP_INSTALLED");
-    if (app_installed == null || app_installed == "false") {
-      // App not installed on device
-      this.showInstallButton = signal(true);
-    } else if (this.isStandalone()) {
-      // Already inside PWA → just navigate
-      this.router.navigateByUrl('/home');
-    }
+    this.checkPwa();
   }
 
   ngOnInit() {
@@ -38,12 +30,17 @@ export class InstallApp implements OnInit {
     });
   }
 
-  async installPwa() {
-
+  async checkPwa() {
     //@ts-ignore
     let installedRelatedApps: any = await navigator.getInstalledRelatedApps?.();
     console.log(JSON.stringify(installedRelatedApps));
     alert(JSON.stringify(installedRelatedApps));
+
+  }
+
+  async installPwa() {
+
+
 
     if (this.deferredPrompt) {
       // Show the install prompt
