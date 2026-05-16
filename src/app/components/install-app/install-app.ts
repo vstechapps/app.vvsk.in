@@ -12,8 +12,12 @@ export class InstallApp implements OnInit {
   private router = inject(Router);
   deferredPrompt: any;
   showInstallButton = signal(false);
+  //@ts-ignore
+  installedRelatedApps: any = await navigator.getInstalledRelatedApps?.();
 
   constructor() {
+    console.log(JSON.stringify(this.installedRelatedApps));
+    alert(JSON.stringify(this.installedRelatedApps));
     let app_installed = localStorage.getItem("APP_INSTALLED");
     if (app_installed == null || app_installed == "false") {
       // App not installed on device

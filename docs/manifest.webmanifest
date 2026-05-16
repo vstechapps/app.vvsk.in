@@ -42,5 +42,11 @@
         }
       ]
     }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://app.vvsk.in"
+    }
   ]
 }
